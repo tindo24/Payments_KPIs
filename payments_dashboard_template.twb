@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<workbook source-build='2023.1.0' source-platform='win' version='21.4' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <preferences>
+    <color-palette name='Payments Palette' type='regular'>
+      <color>#4a6fa5</color>
+      <color>#4caf87</color>
+      <color>#e09a3a</color>
+      <color>#e05c6a</color>
+      <color>#9b6dd1</color>
+      <color>#3ab8c8</color>
+    </color-palette>
+  </preferences>
+  <datasources>
+    <datasource caption='payments_dataset' inline='true' name='payments_data' version='21.4'>
+      <connection class='text' filename='payments_dataset.csv' >
+        <relation name='payments_dataset.csv' table='[payments_dataset#csv]' type='table' />
+      </connection>
+      <column caption='Date' datatype='date' name='[date]' role='dimension' type='ordinal' />
+      <column caption='Vertical' datatype='string' name='[vertical]' role='dimension' type='nominal' />
+      <column caption='Month' datatype='string' name='[month]' role='dimension' type='nominal' />
+      <column caption='Year' datatype='integer' name='[year]' role='dimension' type='ordinal' />
+      <column caption='Transaction Count' datatype='integer' name='[transaction_count]' role='measure' type='quantitative' />
+      <column caption='Total Processing Volume' datatype='real' name='[total_processing_volume]' role='measure' type='quantitative' default-format='$#,##0.00' />
+      <column caption='Avg Transaction Value' datatype='real' name='[avg_transaction_value]' role='measure' type='quantitative' default-format='$#,##0.00' />
+      <column caption='Authorization Rate' datatype='real' name='[authorization_rate]' role='measure' type='quantitative' default-format='0.00%' />
+      <column caption='Decline Rate' datatype='real' name='[decline_rate]' role='measure' type='quantitative' default-format='0.00%' />
+      <column caption='Fraud Rate' datatype='real' name='[fraud_rate]' role='measure' type='quantitative' default-format='0.000%' />
+      <column caption='Chargeback Rate' datatype='real' name='[chargeback_rate]' role='measure' type='quantitative' default-format='0.000%' />
+      <column caption='Refund Rate' datatype='real' name='[refund_rate]' role='measure' type='quantitative' default-format='0.00%' />
+      <column caption='Payment Revenue' datatype='real' name='[payment_revenue]' role='measure' type='quantitative' default-format='$#,##0.00' />
+      <column caption='Net Revenue' datatype='real' name='[net_revenue]' role='measure' type='quantitative' default-format='$#,##0.00' />
+      <column caption='Margin' datatype='real' name='[margin]' role='measure' type='quantitative' default-format='0.0%' />
+      <column caption='Take Rate' datatype='real' name='[take_rate]' role='measure' type='quantitative' default-format='0.00%' />
+      <column caption='Processing Cost' datatype='real' name='[processing_cost]' role='measure' type='quantitative' default-format='$#,##0.00' />
+      <column caption='Cost Per Transaction' datatype='real' name='[cost_per_transaction]' role='measure' type='quantitative' default-format='$#.00' />
+      <column caption='Payment Success Rate' datatype='real' name='[payment_success_rate]' role='measure' type='quantitative' default-format='0.00%' />
+      <column caption='Latency MS' datatype='real' name='[latency_ms]' role='measure' type='quantitative' />
+      <column caption='Uptime' datatype='real' name='[uptime]' role='measure' type='quantitative' default-format='0.000%' />
+      <column caption='Failed Payment Recovery Rate' datatype='real' name='[failed_payment_recovery_rate]' role='measure' type='quantitative' default-format='0.0%' />
+      <column caption='Trial To Paid Rate' datatype='real' name='[trial_to_paid_rate]' role='measure' type='quantitative' default-format='0.0%' />
+      <column caption='Involuntary Churn Rate' datatype='real' name='[involuntary_churn_rate]' role='measure' type='quantitative' default-format='0.00%' />
+      <column caption='Dunning Recovery Rate' datatype='real' name='[dunning_recovery_rate]' role='measure' type='quantitative' default-format='0.0%' />
+      <column caption='MRR' datatype='real' name='[mrr]' role='measure' type='quantitative' default-format='$#,##0.00' />
+      <column caption='Net Revenue Retention' datatype='real' name='[net_revenue_retention]' role='measure' type='quantitative' default-format='0.0%' />
+
+      <!-- CALCULATED FIELDS -->
+      <column caption='TPV (Millions)' datatype='real' name='[Calculation_TPV_M]' role='measure' type='quantitative' default-format='$#,##0.0"M"'>
+        <calculation class='tableau' formula='[total_processing_volume]/1000000' />
+      </column>
+      <column caption='Revenue (Millions)' datatype='real' name='[Calculation_Rev_M]' role='measure' type='quantitative' default-format='$#,##0.0"M"'>
+        <calculation class='tableau' formula='[payment_revenue]/1000000' />
+      </column>
+      <column caption='Net Revenue (Millions)' datatype='real' name='[Calculation_NetRev_M]' role='measure' type='quantitative' default-format='$#,##0.0"M"'>
+        <calculation class='tableau' formula='[net_revenue]/1000000' />
+      </column>
+      <column caption='MRR (Thousands)' datatype='real' name='[Calculation_MRR_K]' role='measure' type='quantitative' default-format='$#,##0.0"K"'>
+        <calculation class='tableau' formula='[mrr]/1000' />
+      </column>
+      <column caption='Auth Rate Health' datatype='string' name='[Calculation_Auth_Health]' role='dimension' type='nominal'>
+        <calculation class='tableau' formula='IF [authorization_rate] &gt;= 0.95 THEN "Healthy" ELSEIF [authorization_rate] &gt;= 0.90 THEN "Warning" ELSE "Critical" END' />
+      </column>
+      <column caption='Fraud Rate Health' datatype='string' name='[Calculation_Fraud_Health]' role='dimension' type='nominal'>
+        <calculation class='tableau' formula='IF [fraud_rate] &lt;= 0.005 THEN "Healthy" ELSEIF [fraud_rate] &lt;= 0.008 THEN "Warning" ELSE "Critical" END' />
+      </column>
+      <column caption='Latency Health' datatype='string' name='[Calculation_Latency_Health]' role='dimension' type='nominal'>
+        <calculation class='tableau' formula='IF [latency_ms] &lt;= 300 THEN "Healthy" ELSEIF [latency_ms] &lt;= 500 THEN "Warning" ELSE "Critical" END' />
+      </column>
+      <column caption='NRR Health' datatype='string' name='[Calculation_NRR_Health]' role='dimension' type='nominal'>
+        <calculation class='tableau' formula='IF [net_revenue_retention] &gt;= 1.0 THEN "Healthy" ELSEIF [net_revenue_retention] &gt;= 0.90 THEN "Warning" ELSE "Critical" END' />
+      </column>
+    </datasource>
+  </datasources>
+
+  <worksheets>
+    <!-- FINANCE SHEETS -->
+    <worksheet name='Monthly TPV'>
+      <table><view><datasources><datasource caption='payments_dataset' name='payments_data'/></datasources>
+        <filter class='categorical' column='[year]'/>
+        <filter class='categorical' column='[vertical]'/>
+      </view></table>
+    </worksheet>
+    <worksheet name='TPV by Vertical'>
+      <table><view><datasources><datasource caption='payments_dataset' name='payments_data'/></datasources>
+        <filter class='categorical' column='[year]'/>
+        <filter class='categorical' column='[vertical]'/>
+      </view></table>
+    </worksheet>
+    <worksheet name='Revenue vs Net Revenue'>
+      <table><view><datasources><datasource caption='payments_dataset' name='payments_data'/></datasources>
+        <filter class='categorical' column='[year]'/>
+        <filter class='categorical' column='[vertical]'/>
+      </view></table>
+    </worksheet>
+    <worksheet name='Margin by Vertical'>
+      <table><view><datasources><datasource caption='payments_dataset' name='payments_data'/></datasources>
+        <filter class='categorical' column='[year]'/>
+        <filter class='categorical' column='[vertical]'/>
+      </view></table>
+    </worksheet>
+
+    <!-- OPERATIONS SHEETS -->
+    <worksheet name='Fraud and Chargeback Trend'>
+      <table><view><datasources><datasource caption='payments_dataset' name='payments_data'/></datasources>
+        <filter class='categorical' column='[year]'/>
+        <filter class='categorical' column='[vertical]'/>
+      </view></table>
+    </worksheet>
+    <worksheet name='Decline Rate by Vertical'>
+      <table><view><datasources><datasource caption='payments_dataset' name='payments_data'/></datasources>
+        <filter class='categorical' column='[year]'/>
+        <filter class='categorical' column='[vertical]'/>
+      </view></table>
+    </worksheet>
+    <worksheet name='Latency Trend'>
+      <table><view><datasources><datasource caption='payments_dataset' name='payments_data'/></datasources>
+        <filter class='categorical' column='[year]'/>
+        <filter class='categorical' column='[vertical]'/>
+      </view></table>
+    </worksheet>
+    <worksheet name='Payment Success Rate'>
+      <table><view><datasources><datasource caption='payments_dataset' name='payments_data'/></datasources>
+        <filter class='categorical' column='[year]'/>
+        <filter class='categorical' column='[vertical]'/>
+      </view></table>
+    </worksheet>
+
+    <!-- PRODUCT SHEETS -->
+    <worksheet name='MRR Trend'>
+      <table><view><datasources><datasource caption='payments_dataset' name='payments_data'/></datasources>
+        <filter class='categorical' column='[year]'/>
+        <filter class='categorical' column='[vertical]'/>
+      </view></table>
+    </worksheet>
+    <worksheet name='Subscription KPIs by Vertical'>
+      <table><view><datasources><datasource caption='payments_dataset' name='payments_data'/></datasources>
+        <filter class='categorical' column='[year]'/>
+        <filter class='categorical' column='[vertical]'/>
+      </view></table>
+    </worksheet>
+    <worksheet name='NRR Trend'>
+      <table><view><datasources><datasource caption='payments_dataset' name='payments_data'/></datasources>
+        <filter class='categorical' column='[year]'/>
+        <filter class='categorical' column='[vertical]'/>
+      </view></table>
+    </worksheet>
+  </worksheets>
+
+  <dashboards>
+    <dashboard name='Finance'>
+      <size maxheight='800' maxwidth='1200' minheight='800' minwidth='1200'/>
+      <zones>
+        <zone h='12000' type='layout-basic' w='12000' x='0' y='0'>
+          <zone h='2000' type='title' w='12000' x='0' y='0'/>
+          <zone h='3000' name='Monthly TPV' type='worksheet' w='6000' x='0' y='2000'/>
+          <zone h='3000' name='TPV by Vertical' type='worksheet' w='6000' x='6000' y='2000'/>
+          <zone h='3000' name='Revenue vs Net Revenue' type='worksheet' w='6000' x='0' y='5000'/>
+          <zone h='3000' name='Margin by Vertical' type='worksheet' w='6000' x='6000' y='5000'/>
+        </zone>
+      </zones>
+      <devicelayouts>
+        <devicelayout dashboardsizeattribute='exactly' name='Default'><size maxheight='800' maxwidth='1200' minheight='800' minwidth='1200'/></devicelayout>
+      </devicelayouts>
+    </dashboard>
+    <dashboard name='Operations'>
+      <size maxheight='800' maxwidth='1200' minheight='800' minwidth='1200'/>
+      <zones>
+        <zone h='12000' type='layout-basic' w='12000' x='0' y='0'>
+          <zone h='2000' type='title' w='12000' x='0' y='0'/>
+          <zone h='3000' name='Fraud and Chargeback Trend' type='worksheet' w='6000' x='0' y='2000'/>
+          <zone h='3000' name='Decline Rate by Vertical' type='worksheet' w='6000' x='6000' y='2000'/>
+          <zone h='3000' name='Latency Trend' type='worksheet' w='6000' x='0' y='5000'/>
+          <zone h='3000' name='Payment Success Rate' type='worksheet' w='6000' x='6000' y='5000'/>
+        </zone>
+      </zones>
+    </dashboard>
+    <dashboard name='Product'>
+      <size maxheight='800' maxwidth='1200' minheight='800' minwidth='1200'/>
+      <zones>
+        <zone h='12000' type='layout-basic' w='12000' x='0' y='0'>
+          <zone h='2000' type='title' w='12000' x='0' y='0'/>
+          <zone h='3000' name='MRR Trend' type='worksheet' w='6000' x='0' y='2000'/>
+          <zone h='3000' name='Subscription KPIs by Vertical' type='worksheet' w='6000' x='6000' y='2000'/>
+          <zone h='6000' name='NRR Trend' type='worksheet' w='12000' x='0' y='5000'/>
+        </zone>
+      </zones>
+    </dashboard>
+  </dashboards>
+</workbook>
