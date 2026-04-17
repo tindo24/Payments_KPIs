@@ -19,21 +19,21 @@ st.markdown("""
 
   html, body, [class*="css"] {
     font-family: 'DM Sans', sans-serif;
-    background-color: #0f1117;
-    color: #e8e8e8;
+    background-color: #003d5c;
+    color: #e8f4ff;
   }
-  .main { background-color: #0f1117; }
+  .main { background-color: #003d5c; }
   .block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
 
   section[data-testid="stSidebar"] {
-    background: #161b27;
-    border-right: 1px solid #2a2f3d;
+    background: #00324d;
+    border-right: 1px solid #005080;
   }
-  section[data-testid="stSidebar"] * { color: #c8cdd8 !important; }
+  section[data-testid="stSidebar"] * { color: #b0d8f0 !important; }
 
   .kpi-card {
-    background: linear-gradient(135deg, #1a2035 0%, #1e2640 100%);
-    border: 1px solid #2a3050;
+    background: linear-gradient(135deg, #00486e 0%, #005580 100%);
+    border: 1px solid #006699;
     border-radius: 12px;
     padding: 1.2rem 1.4rem;
     margin-bottom: 0.5rem;
@@ -45,13 +45,13 @@ st.markdown("""
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #7a8aa0;
+    color: #7ab8d8;
     margin-bottom: 0.3rem;
   }
   .kpi-value {
     font-family: 'DM Serif Display', serif;
     font-size: 1.9rem;
-    color: #e8eaf6;
+    color: #ffffff;
     line-height: 1.1;
   }
   .kpi-delta-pos { font-size: 0.78rem; color: #00d084; font-weight: 500; }
@@ -60,7 +60,7 @@ st.markdown("""
   .section-header {
     font-family: 'DM Serif Display', serif;
     font-size: 1.15rem;
-    color: #c8d8f0;
+    color: #ffffff;
     border-left: 3px solid #24900e;
     padding-left: 0.75rem;
     margin: 1.2rem 0 0.6rem 0;
@@ -69,41 +69,41 @@ st.markdown("""
   .dash-title {
     font-family: 'DM Serif Display', serif;
     font-size: 2rem;
-    color: #c8d8f0;
+    color: #ffffff;
     margin-bottom: 0;
   }
   .dash-subtitle {
     font-size: 0.85rem;
-    color: #5a6a80;
+    color: #7ab8d8;
     margin-top: 0.1rem;
   }
 
   .tab-intro {
-    background: linear-gradient(135deg, #1a2035 0%, #1e2640 100%);
-    border: 1px solid #2a3050;
+    background: linear-gradient(135deg, #00486e 0%, #005580 100%);
+    border: 1px solid #006699;
     border-radius: 10px;
     padding: 0.9rem 1.2rem;
     margin-bottom: 1rem;
     font-size: 0.85rem;
-    color: #8a9ab0;
+    color: #b0d8f0;
     line-height: 1.6;
   }
 
   /* KPI Definition table */
   .def-card {
-    background: #161b27;
-    border: 1px solid #2a3050;
+    background: #00486e;
+    border: 1px solid #006699;
     border-radius: 10px;
     padding: 0.9rem 1.1rem;
     margin-bottom: 0.5rem;
   }
   .def-kpi-name {
     font-weight: 600;
-    color: #c8d8f0;
+    color: #ffffff;
     font-size: 0.9rem;
   }
   .def-kpi-def {
-    color: #7a8aa0;
+    color: #b0d8f0;
     font-size: 0.82rem;
     margin-top: 0.2rem;
     line-height: 1.5;
@@ -116,8 +116,8 @@ st.markdown("""
   }
   .def-category-badge {
     display: inline-block;
-    background: #1a3a1a;
-    color: #00d084;
+    background: #005580;
+    color: #7bdcb5;
     border-radius: 4px;
     padding: 0.1rem 0.5rem;
     font-size: 0.7rem;
@@ -128,14 +128,14 @@ st.markdown("""
   }
 
   .stTabs [data-baseweb="tab-list"] {
-    background: #161b27;
+    background: #00324d;
     border-radius: 8px;
     gap: 4px;
     padding: 4px;
   }
   .stTabs [data-baseweb="tab"] {
     background: transparent;
-    color: #7a8aa0;
+    color: #7ab8d8;
     border-radius: 6px;
     font-size: 0.85rem;
     font-weight: 500;
@@ -143,8 +143,8 @@ st.markdown("""
     padding: 0.5rem 1.2rem;
   }
   .stTabs [aria-selected="true"] {
-    background: #1a3a1a !important;
-    color: #00d084 !important;
+    background: #006699 !important;
+    color: #ffffff !important;
   }
 </style>
 """, unsafe_allow_html=True)
@@ -196,7 +196,7 @@ with st.sidebar:
     years          = ["All"] + sorted(df["year"].unique().tolist())
     selected_year  = st.selectbox("Year", years)
     st.markdown("---")
-    st.caption("📊 Synthetic Data · 2023–2024")
+
     st.caption("👥 Tabs: Finance · Product · Operations · KPI Definitions")
 
 # ── Filter ────────────────────────────────────────────────────────────────────
@@ -207,10 +207,10 @@ if selected_year != "All":
     filtered = filtered[filtered["year"] == int(selected_year)]
 
 # ── Chart helpers ─────────────────────────────────────────────────────────────
-CHART_BG   = "#161b27"
-PAPER_BG   = "#161b27"
-FONT_COLOR = "#c8d8f0"
-GRID_COLOR = "#2a3050"
+CHART_BG   = "#00486e"
+PAPER_BG   = "#003d5c"
+FONT_COLOR = "#ffffff"
+GRID_COLOR = "#005580"
 PALETTE    = ["#24900e","#0693e3","#ff6900","#9b51e0","#00d084","#7bdcb5"]
 
 def clayout(fig, title="", height=300):
@@ -219,10 +219,12 @@ def clayout(fig, title="", height=300):
         paper_bgcolor=PAPER_BG, plot_bgcolor=CHART_BG,
         font=dict(family="DM Sans", color=FONT_COLOR, size=11),
         height=height, margin=dict(l=10, r=10, t=38, b=10),
-        legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(size=10)),
+        legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=FONT_COLOR, size=10)),
         xaxis=dict(gridcolor=GRID_COLOR, zeroline=False),
         yaxis=dict(gridcolor=GRID_COLOR, zeroline=False),
     )
+    fig.update_xaxes(tickfont=dict(color="#ffffff", size=11), title_font=dict(color="#ffffff"))
+    fig.update_yaxes(tickfont=dict(color="#ffffff", size=11), title_font=dict(color="#ffffff"))
     return fig
 
 def kpi_card(col, label, value, tag=None, good=True):
@@ -478,7 +480,7 @@ with tab_defs:
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("---")
 st.markdown(
-    '<p style="text-align:center;color:#3a4a60;font-size:0.75rem;">'
+    '<p style="text-align:center;color:#7ab8d8;font-size:0.75rem;">'
     'Payments Analytics Dashboard · Finance · Product · Operations · '
     'Built with Streamlit & Plotly · Synthetic Data 2023–2024'
     '</p>', unsafe_allow_html=True
